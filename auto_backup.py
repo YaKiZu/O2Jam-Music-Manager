@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 r"""
 Automatic backup utility for O2Jam Music Manager codebase.
-Copies all files and folders to A:\Backup App with a timestamped folder.
+Copies all files and folders to A:\Antigravity\Backup Projets\Projet 1 with a timestamped folder.
 """
 
 import os
@@ -10,7 +10,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def perform_backup(src_dir: str = None, dest_parent: str = r"A:\Backup App") -> Path:
+def perform_backup(src_dir: str = None, dest_parent: str = r"A:\Antigravity\Backup Projets\Projet 1") -> Path:
     if src_dir is None:
         src = Path(__file__).parent.resolve()
     else:
