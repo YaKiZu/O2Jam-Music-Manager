@@ -10,8 +10,12 @@ from datetime import datetime
 from pathlib import Path
 
 
-def perform_backup(src_dir: str = r"A:\Antigravity app", dest_parent: str = r"A:\Backup App") -> Path:
-    src = Path(src_dir)
+def perform_backup(src_dir: str = None, dest_parent: str = r"A:\Backup App") -> Path:
+    if src_dir is None:
+        src = Path(__file__).parent.resolve()
+    else:
+        src = Path(src_dir)
+
     dest_root = Path(dest_parent)
     dest_root.mkdir(parents=True, exist_ok=True)
 
