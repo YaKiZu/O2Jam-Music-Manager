@@ -1,0 +1,170 @@
+<Window x:Class="O2JamManager.ReindexWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="O2Jam Music Manager - Auto-Index Song Order (IDs)"
+        Icon="app_icon.ico"
+        Height="540" Width="820"
+        WindowStartupLocation="CenterOwner"
+        Background="#0b0b14"
+        Foreground="#f1f5f9"
+        FontFamily="Segoe UI"
+        WindowStyle="SingleBorderWindow">
+
+    <Window.Resources>
+        <!-- Button styles -->
+        <Style x:Key="PrimaryBtnStyle" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#7c3aed" Offset="0"/>
+                        <GradientStop Color="#ec4899" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#db2777"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#8b5cf6" Offset="0"/>
+                                            <GradientStop Color="#f43f5e" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="BorderBrush" Value="#f43f5e"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="#1c1c34"/>
+            <Setter Property="Foreground" Value="#e2e8f0"/>
+            <Setter Property="Padding" Value="14,7"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#323258"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#272748"/>
+                                <Setter Property="BorderBrush" Value="#6366f1"/>
+                                <Setter Property="Foreground" Value="#ffffff"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Banner Info -->
+        <Border Grid.Row="0" Background="#181832" BorderBrush="#7c3aed" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0,0,0,14">
+            <TextBlock x:Name="TxtBanner" TextWrapping="Wrap" Foreground="#cbd5e1" FontSize="12" LineHeight="18">
+                <Bold Foreground="#38bdf8">⚡ Sequential Auto-Index :</Bold><LineBreak/>
+                This operation will automatically reassign .OJN ID numbers following the order below.<LineBreak/>
+                It updates the binary header (song_id, old_song_id, ojm_file) and safely renames physical <Run Foreground="#ec4899">.ojn</Run> and <Run Foreground="#38bdf8">.ojm</Run> files.
+            </TextBlock>
+        </Border>
+
+        <!-- Settings Row -->
+        <Border Grid.Row="1" Background="#121222" BorderBrush="#252542" BorderThickness="1" CornerRadius="8" Padding="14,10" Margin="0,0,0,14">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock x:Name="LblStartId" Text="Start ID:" Foreground="#94a3b8" VerticalAlignment="Center" Margin="0,0,8,0" FontWeight="SemiBold"/>
+                <TextBox x:Name="TxtStartId" Text="1" Width="80" Padding="6,4" Background="#18182c" Foreground="#ffffff" BorderBrush="#3b3b64" BorderThickness="1" TextChanged="OnParamsChanged" VerticalAlignment="Center" TextAlignment="Center"/>
+
+                <TextBlock x:Name="LblStep" Text="Increment (Step):" Foreground="#94a3b8" VerticalAlignment="Center" Margin="24,0,8,0" FontWeight="SemiBold"/>
+                <TextBox x:Name="TxtStep" Text="1" Width="60" Padding="6,4" Background="#18182c" Foreground="#ffffff" BorderBrush="#3b3b64" BorderThickness="1" TextChanged="OnParamsChanged" VerticalAlignment="Center" TextAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Preview Grid -->
+        <Border Grid.Row="2" Background="#0e0e1a" BorderBrush="#1e1e36" BorderThickness="1" CornerRadius="8">
+            <DataGrid x:Name="PreviewGrid"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="None"
+                      Background="#0e0e1a"
+                      Foreground="#f1f5f9"
+                      RowBackground="#0e0e1a"
+                      AlternatingRowBackground="#121222"
+                      BorderThickness="0">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#15152a"/>
+                        <Setter Property="Foreground" Value="#94a3b8"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="FontSize" Value="11"/>
+                        <Setter Property="Padding" Value="8,6"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,2"/>
+                        <Setter Property="BorderBrush" Value="#8b5cf6"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ORDER" Binding="{Binding Order}" Width="60"/>
+                    <DataGridTextColumn Header="TITLE" Binding="{Binding Title}" Width="*"/>
+                    <DataGridTextColumn Header="CURRENT ID" Binding="{Binding OldId}" Width="90"/>
+                    <DataGridTextColumn Header="NEW ID" Binding="{Binding NewId}" Width="90">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#c084fc"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="CURRENT FILE" Binding="{Binding OldFile}" Width="150"/>
+                    <DataGridTextColumn Header="NEW FILE" Binding="{Binding NewFile}" Width="150">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#38bdf8"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Action Buttons -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
+            <Button x:Name="BtnCancel" Content="Cancel" Style="{StaticResource SecondaryBtnStyle}" Click="OnCancelClick" Margin="0,0,10,0"/>
+            <Button x:Name="BtnApply" Content="⚡ Apply Auto-Index" Style="{StaticResource PrimaryBtnStyle}" Click="OnApplyClick"/>
+        </StackPanel>
+    </Grid>
+</Window>

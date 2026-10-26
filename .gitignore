@@ -1,0 +1,48 @@
+# Build Results
+[Bb]in/
+[Oo]bj/
+publish/
+publish_standalone/
+dist/
+build/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.ide/
+*.swp
+
+# Packages & NuGet
+*.nupkg
+packages/
+
+# Temporary / Scratch / Archives
+*.zip
+*.7z
+*.rar
+*.tar.gz
+*.log
+*.tmp
+*.bak
+__pycache__/
+*.pyc
+
+# Legacy Python Prototype
+o2jam_manager/
+tests/
+main.py
+run.py
+O2JamMusicManager.spec
+update_proj.py
+update_song_cs.py
+
+# OS generated
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store

@@ -1,0 +1,191 @@
+<Window x:Class="O2JamManager.ModernMessageDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="O2Jam Music Manager"
+        Icon="app_icon.ico"
+        Width="560" MinHeight="210" MaxHeight="620"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        Background="#121019"
+        Foreground="#f1f5f9"
+        FontFamily="Segoe UI"
+        ResizeMode="NoResize"
+        WindowStyle="SingleBorderWindow">
+
+    <Window.Resources>
+        <!-- Primary Gradient Button (Violet / Rose) -->
+        <Style x:Key="DialogPrimaryBtn" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#7c3aed" Offset="0"/>
+                        <GradientStop Color="#ec4899" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="24,8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#db2777"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#8b5cf6" Offset="0"/>
+                                            <GradientStop Color="#f43f5e" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="BorderBrush" Value="#f43f5e"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Danger Button (Red / Rose for delete confirmation) -->
+        <Style x:Key="DialogDangerBtn" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#b91c1c" Offset="0"/>
+                        <GradientStop Color="#e11d48" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="24,8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#f43f5e"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#dc2626" Offset="0"/>
+                                            <GradientStop Color="#fb7185" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="BorderBrush" Value="#fb7185"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Secondary Button (Dark with subtle border) -->
+        <Style x:Key="DialogSecondaryBtn" TargetType="Button">
+            <Setter Property="Background" Value="#1c1c34"/>
+            <Setter Property="Foreground" Value="#cbd5e1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="20,8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#3b3b64"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#29294d"/>
+                                <Setter Property="Foreground" Value="#ffffff"/>
+                                <Setter Property="BorderBrush" Value="#6366f1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="24,20,24,22">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header: Icon, Title & Message -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="IconBlock" Text="📄" FontSize="30" VerticalAlignment="Top" Margin="0,2,16,0"/>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock x:Name="TitleBlock" Text="Titre du message" FontSize="16" FontWeight="ExtraBold" Foreground="#38bdf8"/>
+                <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,6,0,0">
+                    <TextBlock x:Name="MessageBlock" Text="Contenu du message..." FontSize="13" Foreground="#e2e8f0" TextWrapping="Wrap" LineHeight="19"/>
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+
+        <!-- Optional Location Card (OJNList.dat or export path) -->
+        <Border Grid.Row="1" x:Name="CardBorder" Background="#16162a" BorderBrush="#2b2b48" BorderThickness="1" CornerRadius="8" Padding="14,10" Margin="0,14,0,14" Visibility="Collapsed">
+            <StackPanel>
+                <TextBlock x:Name="LocationHeaderBlock" Text="Emplacement mis à jour :" FontSize="12" FontWeight="SemiBold" Foreground="#a855f7" Margin="0,0,0,4"/>
+                <TextBox x:Name="PathBox" IsReadOnly="True" Background="Transparent" BorderThickness="0" Foreground="#38bdf8" FontFamily="Consolas, Segoe UI" FontSize="12" TextWrapping="NoWrap"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Buttons Row -->
+        <Grid Grid.Row="2" Margin="0,14,0,0">
+            <!-- Single OK Button -->
+            <Button x:Name="BtnOk"
+                    Content="D'accord"
+                    Style="{StaticResource DialogPrimaryBtn}"
+                    HorizontalAlignment="Right"
+                    Click="OnOkClick"
+                    IsDefault="True"/>
+
+            <!-- Confirmation Buttons (Yes / No) -->
+            <StackPanel x:Name="ConfirmButtonsPanel" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Collapsed">
+                <Button x:Name="BtnConfirmNo"
+                        Content="Annuler"
+                        Style="{StaticResource DialogSecondaryBtn}"
+                        Margin="0,0,10,0"
+                        Click="OnCancelClick"
+                        IsCancel="True"/>
+                <Button x:Name="BtnConfirmYes"
+                        Content="Confirmer"
+                        Style="{StaticResource DialogPrimaryBtn}"
+                        Click="OnConfirmClick"
+                        IsDefault="True"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

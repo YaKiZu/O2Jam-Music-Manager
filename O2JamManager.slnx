@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="O2JamManager.Tests/O2JamManager.Tests.csproj" />
+  <Project Path="O2JamManager/O2JamManager.csproj" />
+</Solution>
